@@ -1,0 +1,106 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'assets/css/about.css' %}">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+    <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+    
+</head>
+<body>
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center">
+
+      <div class="logo me-auto">
+        <h1><a href="./">Junk File Organizer</a></h1>
+      </div>
+
+      <nav id="navbar" class="navbar order-last order-lg-0">
+        <ul>
+          <li><a class="nav-link scrollto active" href="./">Home</a></li>
+          <li><a class="nav-link scrollto" href="./about">About</a></li>
+          <li><a class="nav-link scrollto" href="/organize">Organize</a></li>
+          {% if user.is_authenticated %}
+          <div class="cs2"></div>
+          <li><btn class="btn btn-danger" onclick="window.open('/logout')">Logout</btn></li>
+          {% else %}
+          <div class="cs1">
+          <li><btn class="btn btn-success" onclick="window.open('/login')">Login</btn></li>
+          {% endif %}
+        </div>
+        </ul>
+        
+      </nav>
+
+    </div>
+  </header>
+
+    <main id="main" style="margin-top: 4rem !important;">
+    
+        <section id="what-we-do" class="what-we-do">
+          <div class="container">
+    
+            <div class="section-title">
+              <h2>What is JFO</h2>
+              <p>JFO helps to automate the process of scanning a specified directory,catoegorizing files into distinct folders based on their extension </p>
+              <p>and establish a well-organized directory for improved file management.</p>
+              <p>The organizer is designed to automatically sort and categorize files in a user- 
+                specified directory, making it easier to find and access specific files.</p><p> The program utilizes 
+                various Python modules, including the os and path modules, to navigate the file system and 
+                move files to designated folders.</p> <p> The user is able to customize the organization scheme and 
+                specify the types of files to be sorted. The program also includes a feature for removing 
+                duplicate files.</p> <p> The organizer has been tested and found to be effective in improving the 
+                organization and efficiency of the user's file system. </p> <p>
+                The program begins by allowing the user to select a directory to organize. </p> <p> Once the directory 
+                is selected, the program scans all the files within it and categorizes them based on their file 
+                type, such as documents, images, videos, etc. </p> <p>The program also allows the user to specify 
+                additional custom categories if desired. </p> <p>The program then moves the files into their respective 
+                category folders, creating the folders if they do not already exist. </p> <p>
+                The program also has a feature for managing and cleaning up empty folders.</p> <p> If the program 
+                detects any empty folders within the selected directory, it prompts the user to delete them.</p> <p> This 
+                helps to keep the file system clean and free of unnecessary clutter. </p> <p>
+                Overall, the program makes it easy for the user to manage and organize their files, and it is a 
+                useful tool for anyone who wants to keep their file system in order.</p> <p> It is easy to use and can be 
+                customized to fit the user's specific needs</p>
+            </div>
+    
+            </div>
+    
+          </div>
+        </section>
+    
+        
+        <section id="about" class="about">
+          <div class="container">
+    
+            <div class="row">
+              <div class="col-lg-6 pt-4 pt-lg-0">
+                <h3>About Us</h3>
+                <p>This platform is to clear the spam files from your directory & organizes the remaning files into folders according to their extension.</p>
+                <ul>
+                  <li><i class="bx bx-check-double"></i> We clear the spam files.</li>
+                  <li><i class="bx bx-check-double"></i> We organizes the files into specfic folders according to their extension .</li>
+                </ul>
+              </div>
+            </div>
+    
+          </div>
+        </section>  
+      </main>
+</body>
+</html>

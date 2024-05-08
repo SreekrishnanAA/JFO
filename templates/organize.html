@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Title</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        #fileLocation {
+            color: #ddd; /* light color for the text */
+            background-color: #a6a6a6; /* light dark background */
+            border: 1px solid black; /* black border */
+            padding: 10px; /* some padding */
+        }
+        #folderSection {
+            display: flex; /* enables flexbox */
+            flex-wrap: wrap; /* allows the items to wrap as needed */
+            justify-content: center; /* centers items horizontally */
+            align-items: center; /* centers items vertically */
+        }
+        .folder {
+            color: #000; /* text color */
+            background-color: #f4a460; /* brown-yellow background */
+            border: 1px solid black; /* black border */
+            padding: 10px; /* some padding */
+            /* display: inline-block; align folders side by side */
+            margin: 5px; /* some margin */
+            font-size: 0.9em; /* smaller text */
+            width: 90%;
+        }
+        .folder:before {
+            content: "\f07b"; /* folder icon */
+            font-family: "Font Awesome 5 Free"; /* font-awesome icon */
+            margin-right: 5px; /* space between icon and text */
+        }
+        .folder:hover {
+            background-color: #deb887; /* lighter brown-yellow background on hover */
+            transform: scale(1.01); /* slightly larger on hover */
+        }
+        .modal-dialog {
+            max-width: 80%;  /* Set the maximum width of the modal to 60% of the screen width */
+        }
+        .modal-body {
+            overflow-x: auto;  /* Enable horizontal scrolling if necessary */
+            word-wrap: break-word;  /* Break the word if it's too long */
+        }
+        .folder_folder {
+            color: #000; /* text color */
+            background-color: #f4a460; /* brown-yellow background */
+            border: 1px solid black; /* black border */
+            padding: 10px; /* some padding */
+            /* display: inline-block; align folders side by side */
+            margin: 5px; /* some margin */
+            font-size: 0.9em; /* smaller text */
+            width: 90%;
+        }
+        .folder_folder::before {
+            content: "\f07b"; /* folder icon */
+            font-family: "Font Awesome 5 Free"; /* font-awesome icon */
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- 1st row: Navigation bar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="d-flex justify-content-between w-100">
+                <button class="btn btn-light" id="backButton">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <a class="navbar-brand m-0" href="#">File System</a>
+                <div id="fileLocation" class="text-right">
+                    Drives
+                </div>
+            </div>
+        </nav>
+
+        <!-- 2nd row: Form to upload a folder location -->
+        <div class="row mt-4" style="margin-top: 4rem !important;">
+            
+        </div>
+        
+        <div id="folderSection" style="display: none;"></div>
+
+        <!-- POPUP -->
+        <!-- Modal -->
+        <div class="modal fade" id="folderModal" tabindex="-1" role="dialog" aria-labelledby="folderModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="folderModalLabel">Folder Contents</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                </div>
+                <div class="modal-body" id="folderContents" style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center;">
+                
+                </div>
+                <div class="modal-footer">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="text" data-location="" class="disabled hiddenInput" name="hiddenInput" style="display: none;">
+                        <button type="submit" class="btn btn-primary organize-btn">Organize</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </form>
+                </div>
+            </div>
+            </div>
+        </div>
+  
+        
+    </div>
+
+    <!-- Include Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    {{ data|json_script:"data" }}
+
+
+
+    <script>
+        $(document).ready(function() {
+            var data = JSON.parse(document.getElementById('data').textContent);
+            console.log(data)
+            var drives = Object.keys(data);  // Get the drive letters
+            console.log(drives)
+            let curentDrive = ""
+
+            // Generate HTML for each drive
+            for (var i = 0; i < drives.length; i++) {
+                let html = '<div class="col text-center">' +
+                    '<div class="card text-white mx-auto" style="max-width: 15rem; background-color: #536878;">' +
+                    '<div class="drive card-header" data-drive="' + drives[i] + '">Drive ' + drives[i] + '</div>' +
+                    '<div class="card-body">' +
+                    '<h5 class="card-title"><i class="fas fa-hdd"></i></h5>' +
+                    '</div></div></div>';
+
+                // Append the drive div to the row
+                $(".row").append(html);
+            }
+
+            $(".drive").click(function() {
+                var drive = $(this).attr("data-drive");
+                curentDrive = drive
+                console.log(curentDrive)
+                var folders = data[curentDrive]; 
+                console.log(folders)
+                let html = "";
+                console.log(Object.keys(folders))
+                let fileLocation = document.querySelector("#fileLocation")
+                fileLocation.textContent = drive + ":/"
+
+                // Generate HTML for each folder
+                var folderNames = Object.keys(folders);
+                for (let i = 0; i < folderNames.length; i++) {
+                    html += "<div class='folder'>" + folderNames[i] + "</div>";
+                    console.log(html)
+                }
+
+                // Display the folders in the section
+                $("#folderSection").html(html).show();
+                $(".row").hide()
+
+                $(".folder").click(function() {
+                    var folder = $(this).text(); 
+                    let html = ""
+                    let folderModalLabel = document.querySelector("#folderModalLabel")
+                    folderModalLabel.textContent = this.textContent
+
+                    // Generate HTML for each file
+                    let currFolders = data[curentDrive][folder];
+                    console.log((currFolders[i].name))
+                    for (let i = 0; i < currFolders.length; i++) {
+                        html += "<div class='folder_folder'>" + currFolders[i].name + "</div>";
+                    }
+
+                    $(".organize-btn").click(function() {
+                        let hiddenInput = document.querySelector(".hiddenInput")
+                        hiddenInput.value = ""
+                        hiddenInput.value = curentDrive + ":/" + folder
+                        console.log(hiddenInput.value)
+                    })
+                    
+                    
+
+                    $("#folderContents").html(html);
+                    let folderContents = document.querySelector("#folderContents")
+                    console.log(folderContents.innerText)
+                    $("#folderModal").modal('show');
+                })
+            });
+
+            $("#backButton").click(function() {
+                let fileLocation = document.querySelector("#fileLocation")
+                fileLocation.textContent = "Drives"
+                $("#folderSection").hide();
+                $(".row").show();
+            });
+
+        });
+    </script>
+</body>
+</html>

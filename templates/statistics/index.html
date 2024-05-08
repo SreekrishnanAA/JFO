@@ -1,0 +1,109 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Statistics</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- <link rel="stylesheet" href="dist/main.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+  <header class="navbar navbar-expand sticky-top bg-primary navbar-dark flex-column flex-md-row bd-navbar">
+
+    <div class="navbar-nav-scroll">
+      <ul class="navbar-nav bd-navbar-nav flex-row">
+        <li class="nav-item px-2">
+          <a class="nav-link active" href="#">Statistics</a>
+        </li>
+        <li class="nav-item px-2">
+          <a class="nav-link" href="#">Organize</a>
+        </li>
+      </ul>
+    </div>
+
+  </header>
+  <div class="container-fluid">
+    <div class="row">
+        <main class="col">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                <h1 class="h2"><i class="fa fa-tachometer"></i> Dashboard</h1>
+            </div>
+
+            <div class="row justify-content-center">
+              <div class="col-lg-2 col-md-3 col-sm-12 mb-3">
+                  <div class="card text-white bg-primary">
+                      <div class="card-header"><i class="fa fa-shopping-bag"></i> Total Files</div>
+                      <div class="card-body">
+                          <h3 class="card-title total-files">150</h3>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-3 col-sm-12 mb-3">
+                  <div class="card text-white bg-success">
+                      <div class="card-header"><i class="fa fa-bar-chart"></i> Total Size</div>
+                      <div class="card-body">
+                          <h3 class="card-title total-size">53%</h3>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-3 col-sm-12 mb-3">
+                  <div class="card text-white bg-warning">
+                      <div class="card-header"><i class="fa fa-user-plus"></i> Organized Files</div>
+                      <div class="card-body">
+                          <h3 class="card-title org-files">44</h3>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-3 col-sm-12 mb-3">
+                  <div class="card text-white bg-danger">
+                      <div class="card-header"><i class="fa fa-pie-chart"></i> Deleted Files</div>
+                      <div class="card-body">
+                          <h3 class="card-title del-files">65</h3>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+
+            <div class="center">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.js"></script>
+
+  <script>
+    $(document).ready(function() {
+        var datas = JSON.parse('{{ datas|escapejs }}');
+        document.querySelector(".total-files").textContent = datas[0]
+        document.querySelector(".total-size").textContent = datas[3] + " Bytes"
+        document.querySelector(".org-files").textContent = datas[2]
+        document.querySelector(".del-files").textContent = datas[1]
+    });
+  </script>
+
+
+</body>
+
+</html>
